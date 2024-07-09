@@ -1,0 +1,57 @@
+<!-- profile.html -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .profile-details {
+            margin-left: 20px;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center profile-section">
+            <div class="col-md-8 text-center">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                {% else %}
+                    <img src="{% static 'images/default_profile_picture.jpg' %}" alt="Profile Picture" class="profile-picture">
+                {% endif %}
+                <div class="profile-details">
+                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Address:</strong> {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+                </div>
+                
+                <!-- Back Button -->
+                <a href="javascript:history.back()" class="btn btn-secondary mt-3 mr-2">Back</a>
+                
+                <!-- Logout Button -->
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger mt-3">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
